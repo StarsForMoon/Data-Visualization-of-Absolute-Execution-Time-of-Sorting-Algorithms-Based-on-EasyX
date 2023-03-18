@@ -1,0 +1,3 @@
+1、课程设计中涉及到数据可视化，需要下载Visual C++的一个外部绘图库（EasyX），因此需要在EasyX官网上下载该外库。
+2、func.cpp与main.cpp是源文件，statement.h是头文件。
+3、运行的编译器为Visual Studio 2019
