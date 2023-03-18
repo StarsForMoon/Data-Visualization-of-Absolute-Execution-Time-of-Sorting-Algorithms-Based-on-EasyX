@@ -6,89 +6,66 @@
 #include <stdio.h>
 #include <time.h>	
 #include <malloc.h>
-#include <direct.h>      //ÎÄ¼şÄ¿Â¼
+#include <direct.h>      //æ–‡ä»¶ç›®å½•
 
 /*EASYX*/
-#include<graphics.h>	//Ò»¶¨Òª°²×°Eaxy-x²å¼ş
-#include<string.h>		//×Ö·û´®²Ù×÷º¯ÊıÍ·ÎÄ¼ş
-#include<conio.h>		//getch()º¯ÊıÍ·ÎÄ¼ş
-#include<stdlib.h>		//itoa()º¯ÊıÍ·ÎÄ¼ş
+#include<graphics.h>	//ä¸€å®šè¦å®‰è£…Eaxy-xæ’ä»¶
+#include<string.h>		//å­—ç¬¦ä¸²æ“ä½œå‡½æ•°å¤´æ–‡ä»¶
+#include<conio.h>		//getch()å‡½æ•°å¤´æ–‡ä»¶
+#include<stdlib.h>		//itoa()å‡½æ•°å¤´æ–‡ä»¶
 typedef int KeyType;
 
-/*ÎÄ¼şÊäÈëÊä³öÁ÷*/
-#include<fstream>//ÎÄ¼şÊäÈëÊä³öÁ÷
+/*æ–‡ä»¶è¾“å…¥è¾“å‡ºæµ*/
+#include<fstream>//æ–‡ä»¶è¾“å…¥è¾“å‡ºæµ
 
 
 void swap(KeyType& x, KeyType& y);
-void initial(int R[], int low, int high);				//²úÉúR[low..highÖĞµÄËæ»úÊı
-void copy(int R[], int R1[], int n);					//ÓÃÓÚÅÅĞòÊı¾İ¸´ÖÆ
-void copy1(int R[], int R1[], int n);					//ÓÃÓÚ¶ÑÅÅĞòÊı¾İ¸´ÖÆ
-bool test(KeyType R[], int low, int high);				//ÑéÖ¤ÅÅĞò½á¹ûµÄÕıÈ·ĞÔ
+void initial(int R[], int low, int high);				//äº§ç”ŸR[low..highä¸­çš„éšæœºæ•°
+void copy(int R[], int R1[], int n);					//ç”¨äºæ’åºæ•°æ®å¤åˆ¶
+void copy1(int R[], int R1[], int n);					//ç”¨äºå †æ’åºæ•°æ®å¤åˆ¶
+bool test(KeyType R[], int low, int high);				//éªŒè¯æ’åºç»“æœçš„æ­£ç¡®æ€§
 
 void InsertSort(KeyType R[], int n);
-double InsertSortTime(KeyType R[], int n);				//ÇóÖ±½Ó²åÈëÅÅĞòµÄÊ±¼ä
+double InsertSortTime(KeyType R[], int n);				//æ±‚ç›´æ¥æ’å…¥æ’åºçš„æ—¶é—´
 
 void BinInsertSort(KeyType R[], int n);
-double BinInsertSortTime(KeyType R[], int n);				//ÇóÕÛ°ë²åÈëÅÅĞòµÄÊ±¼ä
+double BinInsertSortTime(KeyType R[], int n);				//æ±‚æŠ˜åŠæ’å…¥æ’åºçš„æ—¶é—´
 
-void ShellSort(KeyType R[], int n);						//Ï£¶ûÅÅĞòËã·¨
-double ShellSortTime(KeyType R[], int n);					//ÇóÏ£¶ûÅÅĞòËã·¨µÄÊ±¼ä
+void ShellSort(KeyType R[], int n);						//å¸Œå°”æ’åºç®—æ³•
+double ShellSortTime(KeyType R[], int n);					//æ±‚å¸Œå°”æ’åºç®—æ³•çš„æ—¶é—´
 
 void BubbleSort(KeyType R[], int n);
-double BubbleSortTime(KeyType R[], int n);				//ÇóÃ°ÅİÅÅĞòËã·¨µÄÊ±¼ä
+double BubbleSortTime(KeyType R[], int n);				//æ±‚å†’æ³¡æ’åºç®—æ³•çš„æ—¶é—´
 
 void ImprovedBubbleSort(KeyType R[], int n);
-double ImprovedBubbleSortTime(KeyType R[], int n);		//Çó¸Ä½øÃ°ÅİÅÅĞòËã·¨µÄÊ±¼ä
+double ImprovedBubbleSortTime(KeyType R[], int n);		//æ±‚æ”¹è¿›å†’æ³¡æ’åºç®—æ³•çš„æ—¶é—´
 
-int partition(KeyType R[], int s, int t);				//Ò»ÌË»®·Ö
-void QuickSort(KeyType R[], int s, int t);				//¶ÔR[s..t]µÄÔªËØ½øĞĞ¿ìËÙÅÅĞò
-double QuickSortTime(KeyType R[], int n);					//Çó¿ìËÙÅÅĞòËã·¨µÄÊ±¼ä
+int partition(KeyType R[], int s, int t);				//ä¸€è¶Ÿåˆ’åˆ†
+void QuickSort(KeyType R[], int s, int t);				//å¯¹R[s..t]çš„å…ƒç´ è¿›è¡Œå¿«é€Ÿæ’åº
+double QuickSortTime(KeyType R[], int n);					//æ±‚å¿«é€Ÿæ’åºç®—æ³•çš„æ—¶é—´
 
 void SelectSort(KeyType R[], int n);
-double SelectSortTime(KeyType R[], int n);				//Çó¼òµ¥Ñ¡ÔñÅÅĞòËã·¨µÄÊ±¼ä
+double SelectSortTime(KeyType R[], int n);				//æ±‚ç®€å•é€‰æ‹©æ’åºç®—æ³•çš„æ—¶é—´
 
 void sift(KeyType R[], int low, int high);
 void HeapSort(KeyType R[], int n);
-double HeapSortTime(KeyType R[], int n);					//Çó¶ÑÅÅĞòËã·¨µÄÊ±¼ä
+double HeapSortTime(KeyType R[], int n);					//æ±‚å †æ’åºç®—æ³•çš„æ—¶é—´
 
-void Merge(KeyType R[], int low, int mid, int high);	//¹é²¢R[low..high]
-void MergePass(KeyType R[], int length, int n);			//¶ÔÕû¸öÅÅĞòĞòÁĞ½øĞĞÒ»ÌË¹é²¢
-void MergeSort(KeyType R[], int n); 					//¶şÂ·¹é²¢ÅÅĞò
-double MergeSortTime(KeyType R[], int n);					//Çó¶şÂ·¹é²¢ÅÅĞòËã·¨µÄÊ±¼ä
+void Merge(KeyType R[], int low, int mid, int high);	//å½’å¹¶R[low..high]
+void MergePass(KeyType R[], int length, int n);			//å¯¹æ•´ä¸ªæ’åºåºåˆ—è¿›è¡Œä¸€è¶Ÿå½’å¹¶
+void MergeSort(KeyType R[], int n); 					//äºŒè·¯å½’å¹¶æ’åº
+double MergeSortTime(KeyType R[], int n);					//æ±‚äºŒè·¯å½’å¹¶æ’åºç®—æ³•çš„æ—¶é—´
 
 void CountingSort(KeyType R[],int n);
-double CountingSortTime(KeyType R[], int n);				//Çó¼ÆÊıÅÅĞòËã·¨µÄÊ±¼ä
+double CountingSortTime(KeyType R[], int n);				//æ±‚è®¡æ•°æ’åºç®—æ³•çš„æ—¶é—´
 
 
 int GetMax(KeyType R[], int n);
 void RadixSort(KeyType R[], int n);
-double RadixSortTime(KeyType R[], int n);					//Çó»ùÊıÅÅĞòËã·¨µÄÊ±¼ä
+double RadixSortTime(KeyType R[], int n);					//æ±‚åŸºæ•°æ’åºç®—æ³•çš„æ—¶é—´
 
-void Picture(double Y[11],char *loc);//»­Í¼
-void DataView(double Y[][10], int choice);					//²é¿´ÅÅĞòÊ±¼äÊı¾İ
-void Visualize(double Y[][10], int choice,char *loc);		//¿ÉÊÓ»¯ÅÅĞòÊ±¼äÊı¾İ
-void SaveData(double EXETIME[][10], int row,int col);		//±£´æËùÓĞÊı¾İ
-void Select(double Y[][10],bool *system_key,char *loc);		//²Ëµ¥Ñ¡Ôñ
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void Picture(double Y[11],char *loc);//ç”»å›¾
+void DataView(double Y[][10], int choice);					//æŸ¥çœ‹æ’åºæ—¶é—´æ•°æ®
+void Visualize(double Y[][10], int choice,char *loc);		//å¯è§†åŒ–æ’åºæ—¶é—´æ•°æ®
+void SaveData(double EXETIME[][10], int row,int col);		//ä¿å­˜æ‰€æœ‰æ•°æ®
+void Select(double Y[][10],bool *system_key,char *loc);		//èœå•é€‰æ‹©
